@@ -14,6 +14,8 @@
 		D75F2B321D3545E70005FBF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D75F2B301D3545E70005FBF8 /* LaunchScreen.storyboard */; };
 		D75F2B3D1D3545E70005FBF8 /* calculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75F2B3C1D3545E70005FBF8 /* calculatorTests.swift */; };
 		D75F2B481D3545E70005FBF8 /* calculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75F2B471D3545E70005FBF8 /* calculatorUITests.swift */; };
+		D7803EF21D37DE9D0099B6FB /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7803EF01D37DE9D0099B6FB /* music.mp3 */; };
+		D7803EF31D37DE9D0099B6FB /* musics.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7803EF11D37DE9D0099B6FB /* musics.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		D75F2B431D3545E70005FBF8 /* calculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calculatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D75F2B471D3545E70005FBF8 /* calculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorUITests.swift; sourceTree = "<group>"; };
 		D75F2B491D3545E70005FBF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7803EF01D37DE9D0099B6FB /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = music.mp3; path = Assets.xcassets/music.mp3; sourceTree = "<group>"; };
+		D7803EF11D37DE9D0099B6FB /* musics.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = musics.mp3; path = Assets.xcassets/musics.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			children = (
 				D75F2B271D3545E70005FBF8 /* AppDelegate.swift */,
 				D75F2B291D3545E70005FBF8 /* ViewController.swift */,
+				D7803EF01D37DE9D0099B6FB /* music.mp3 */,
+				D7803EF11D37DE9D0099B6FB /* musics.mp3 */,
 				D75F2B2B1D3545E70005FBF8 /* Main.storyboard */,
 				D75F2B2E1D3545E70005FBF8 /* Assets.xcassets */,
 				D75F2B301D3545E70005FBF8 /* LaunchScreen.storyboard */,
@@ -229,8 +235,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7803EF21D37DE9D0099B6FB /* music.mp3 in Resources */,
 				D75F2B321D3545E70005FBF8 /* LaunchScreen.storyboard in Resources */,
 				D75F2B2F1D3545E70005FBF8 /* Assets.xcassets in Resources */,
+				D7803EF31D37DE9D0099B6FB /* musics.mp3 in Resources */,
 				D75F2B2D1D3545E70005FBF8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +492,7 @@
 				D75F2B4E1D3545E70005FBF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D75F2B4F1D3545E70005FBF8 /* Build configuration list for PBXNativeTarget "calculatorTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +501,7 @@
 				D75F2B511D3545E70005FBF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D75F2B521D3545E70005FBF8 /* Build configuration list for PBXNativeTarget "calculatorUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +510,7 @@
 				D75F2B541D3545E70005FBF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
