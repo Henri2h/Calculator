@@ -16,14 +16,18 @@ class ViewController: UIViewController{
     var previousChange = false
     var operatorUsed:String = ""
     var totalLive : Double = 0
+    
     @IBOutlet weak var tbDisplay: UILabel!
     @IBOutlet weak var tbOut: UILabel!
-    
     @IBOutlet weak var tbResult: UILabel!
+    
+    @IBOutlet weak var tbMusic: UILabel!
     
     var left = ""
     var oldValue = false
     
+    // timer for the disco
+    var timer = NSTimer()
     
     @IBAction func btClear(sender: AnyObject) {
         
@@ -40,7 +44,7 @@ class ViewController: UIViewController{
         operatorUsed = ""
         define()
     }
-    var audioPlayer = AVAudioPlayer()
+   
     
     // ===== don't know the name .... ====
     @IBAction func btEqual(sender: AnyObject) {
@@ -50,43 +54,20 @@ class ViewController: UIViewController{
         previousChange = false
         operatorUsed = ""
         
-        if(total == 10.0)
-        {
-            
-            
-            let audioFilePath = NSBundle.mainBundle().pathForResource("music", ofType: "mp3")
-            
-            if audioFilePath != nil {
-                
-                let audioFileUrl = NSURL.fileURLWithPath(audioFilePath!)
-                
-                do {
-                    audioPlayer = try AVAudioPlayer(contentsOfURL: audioFileUrl)
-                    
-                    audioPlayer.prepareToPlay()
-                    audioPlayer.play()
-                    
-                    
-                   display = "playing ..."
-
-                }
-                catch{
-                    display = "error"
-                }
-                
-              
-            } else {
-             display = "error playing music"
-            }
-
-        }
-        
         defineEqual()
         oldValue = true
         
+        
+        
+        if(total == 10.0)
+        {
+       playMusic()
+
+        }
+        
+        
         total = 0
         totalLive = 0
-        
        
     }
     
@@ -101,6 +82,13 @@ class ViewController: UIViewController{
     }
     @IBAction func multiply(sender: AnyObject) {
         Add("x")
+    }
+    @IBAction func btNegate(sender: UIButton) {
+        if(left != ""){
+        left = (String)(-(Double)(left)!)
+        }
+        define()
+        
     }
     
     
@@ -136,6 +124,10 @@ class ViewController: UIViewController{
     @IBAction func bt9(sender: AnyObject) {
         addInt(9)
     }
+    
+    @IBAction func btPi(sender: UIButton) {
+        addString((String)(M_PI))
+    }
     @IBAction func btComma(sender: AnyObject) {
         addString(".")
     }
@@ -162,6 +154,7 @@ class ViewController: UIViewController{
     func result (){
         
         if(previousChange == true){
+            
             if(operatorUsed == "-"){
                 total = total - (double_t)(left)!
             }
@@ -171,7 +164,7 @@ class ViewController: UIViewController{
             else if(operatorUsed == "/"){
                 total = total / (double_t)(left)!
             }
-            else if(operatorUsed == "*"){
+            else if(operatorUsed == "x"){
                 total = total * (double_t)(left)!
             }
         }
@@ -204,10 +197,6 @@ class ViewController: UIViewController{
     }
     
     func Add(input : String){
-        if (operatorUsed == "x"){
-            operatorUsed="*"
-        }
-        
         
         result()
         
@@ -243,12 +232,15 @@ class ViewController: UIViewController{
         else if(operatorUsed == "/"){
             calculateResult = calculateLeft / calculateRight
         }
-        else if(operatorUsed == "*"){
+        else if(operatorUsed == "x"){
             calculateResult = calculateLeft * calculateRight
         }
         
     return calculateResult
     }
+    
+    
+    // ==================== UI =========================
     
     // operator
     @IBOutlet weak var btModulo: UIButton!
@@ -268,23 +260,145 @@ class ViewController: UIViewController{
     @IBOutlet weak var btSeven: UIButton!
     @IBOutlet weak var btEight: UIButton!
     @IBOutlet weak var btNine: UIButton!
-    var color = true
+    
+    //equal
+    @IBOutlet weak var btEqual: UIButton!
+    
+    //special
+    @IBOutlet weak var btClear: UIButton!
+    @IBOutlet weak var btRemove: UIButton!
+    @IBOutlet weak var btNegate: UIButton!
+    
+    @IBOutlet weak var btComma: UIButton!
+    @IBOutlet weak var btPi: UIButton!
+    
+    
+    var pos = 0
+    var inputText = ""
+    var totalText = 0
+    
+    var color = false
+    var toDisplay = ""
+    
+    // music
+     var audioPlayer = AVAudioPlayer()
+    
+    func playMusic (){
+        
+        let selectedMusic = Int(arc4random_uniform(1))
+        let music = (String)(selectedMusic)
+        let audioFilePath = NSBundle.mainBundle().pathForResource(music, ofType: "mp3")
+        var selectedMusicName = ""
+        
+        switch(selectedMusic){
+        case 0: selectedMusicName = "little Ensteins"
+        case 1: selectedMusicName = "Game of thrones remix"
+        case 2: selectedMusicName  = "Wake me up inside"
+        case 3 : selectedMusicName = "Never give you up"
+        default: selectedMusicName = "This is a music"
+        }
+        
+        if audioFilePath != nil {
+            
+            let audioFileUrl = NSURL.fileURLWithPath(audioFilePath!)
+            
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOfURL: audioFileUrl)
+                
+                audioPlayer.prepareToPlay()
+                audioPlayer.play()
+                
+                
+                tbMusic.text = "playing : " + selectedMusicName
+                
+                startDisco()
+                
+            }
+            catch{
+                tbMusic.text = "error"
+            }
+            
+            
+        } else {
+            tbMusic.text = "error playing music"
+        }
+        
+    }
     func changeNumbColor(){
+        if(pos==0){
+            let k : [String] = [
+                "C# is my god because it is great !",
+                "Just do it",
+                "Steave Jobs is my god",
+                "My memes are better than yours",
+                "The little einstiens will destroy you.",
+                "Never gonna give you up",
+                "JOHN CENA",
+                "Pray Tim Cook"
+            ]
+            let rand = Int(arc4random_uniform(8))
+            let inputChar = k.startIndex.advancedBy(rand)
+            inputText =  k[inputChar]
+
+        }
+        totalText = inputText.characters.count
+        
         var clr:UIColor
         var operatorColor:UIColor
         
-        
+        var comma:UIColor
+        var special:UIColor
+        var equal:UIColor
+       
         
         if(color){
-        color = false
-            clr = UIColor.redColor()
-            operatorColor = UIColor.greenColor()
+            
+            clr = getRandomColor()
+            operatorColor = getRandomColor()
+            comma = getRandomColor()
+            special = getRandomColor()
+            equal = getRandomColor()
+            
+            if(pos < totalText){
+                
+                
+                    let inputChar = inputText.startIndex.advancedBy(pos)
+                    toDisplay += String(inputText[inputChar])
+                    
+                    pos += 1
+                
+            }
+            else
+            {
+                if(pos > (totalText + 3)){
+                pos = 0
+                toDisplay = ""
+                }
+                else{
+                    pos += 1
+                }
+            }
+            
+            tbOut.text = toDisplay
+            
+          
+                let playing = try audioPlayer.playing
+                
+                if(playing == false){
+                    stopDisco()
+                    tbMusic.text = ""
+                    changeNumbColor()
+                }
+          
         }
         else{
-            color = true
             clr = UIColor.greenColor()
             operatorColor = UIColor.orangeColor()
+            comma = UIColor.grayColor()
+            special = UIColor.redColor()
+            equal = UIColor.yellowColor()
         }
+        
         
         
         btZero.backgroundColor = clr
@@ -303,9 +417,40 @@ class ViewController: UIViewController{
         btAdd.backgroundColor = operatorColor
         btDivide.backgroundColor = operatorColor
         btMultiply.backgroundColor = operatorColor
+        
+        btComma.backgroundColor = comma
+        btPi.backgroundColor = comma
+        
+        btEqual.backgroundColor = equal
+        
+        btClear.backgroundColor = special
+        btRemove.backgroundColor = special
+        btNegate.backgroundColor = special
     }
     
-    // ================= UI =====================
+ func getRandomColor() -> UIColor{
+        
+    let randomRed:CGFloat = CGFloat(drand48())
+    let randomGreen:CGFloat = CGFloat(drand48())
+    let randomBlue:CGFloat = CGFloat(drand48())
+        
+    return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+         }
+    
+    //start
+    func startDisco(){
+        color = true
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(changeNumbColor), userInfo: nil, repeats: true)
+    }
+    //stop
+    func stopDisco()
+    {
+        color = false
+        timer.invalidate()
+        define()
+    }
+    
+    // ================= textbox =====================
     
     
     func define(){
@@ -314,6 +459,7 @@ class ViewController: UIViewController{
         tbOut.text = left
         
         tbResult.text = (String)(totalLive)
+        
     }
     
     
@@ -324,16 +470,20 @@ class ViewController: UIViewController{
         
         tbResult.text = ""
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+changeNumbColor()
+        
+    }
+
 
 
 }
